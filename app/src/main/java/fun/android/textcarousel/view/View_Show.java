@@ -10,9 +10,7 @@ import fun.android.textcarousel.R;
 import fun.android.textcarousel.system.Static;
 
 public class View_Show extends View_Main{
-    private Context context;
     private TextView text_view;
-    private View view_alpha;
     private int alpha=0;
     private int 计时 = 0;
     private int 流程 = 0;
@@ -63,7 +61,6 @@ public class View_Show extends View_Main{
         }
     };
     public View_Show(Context context){
-        this.context = context;
         view =  LayoutInflater.from(context).inflate(R.layout.view_show, null);
         text_view = view.findViewById(R.id.text_view);
         text_view.setText("");
