@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -22,11 +23,11 @@ public class View_Show extends View_Main{
     private int 文本编号 = 0;
     private Handler handler = new Handler(Looper.getMainLooper());
     private boolean 关闭 = false;
-    private Runnable runnable = new Runnable() {
+    private Runnable runnable_全部显示效果 = new Runnable() {
         @Override
         public void run() {
             if(流程==0){
-                if(计时 < 300){
+                if(计时 < 100){
                     计时 = 计时 + 1;
                 }else{
                     alpha = alpha + 3;
@@ -45,7 +46,7 @@ public class View_Show extends View_Main{
             }
 
             if(流程 == 1){
-                if(计时 < 500){
+                if(计时 < 100){
                     计时 = 计时 + 1;
                 }else{
                     /*
@@ -91,13 +92,64 @@ public class View_Show extends View_Main{
             }
         }
     };
+    private String[] 文本数组;
+    private int 数组编号=0;
+    private Runnable runnable_按字显示效果 = new Runnable() {
+        @Override
+        public void run() {
+
+            if(流程==0){
+                if(文本数组==null){
+                    文本数组 = Static.text_list.get(文本编号).split("");
+                }
+
+                if(数组编号 < 文本数组.length){
+                    text_view.setText(text_view.getText() + 文本数组[数组编号] + "\n");
+                    数组编号++;
+                }else{
+                    流程 = 1;
+                }
+                handler.postDelayed(this, 300);
+                return;
+            }
+            if(流程 == 1){
+                计时++;
+                if(计时>=10){
+                    流程=2;
+                }
+                handler.postDelayed(this, 300);
+                return;
+            }
+            if(流程 == 2){
+                text_view.setText("");
+                new ParticleSystem((Activity) context, 100, R.drawable.ic_particle, 800)
+                        .setSpeedRange(0.2f, 0.5f) // 粒子速度范围
+                        .setScaleRange(0.5f, 1.5f) // 粒子缩放范围
+                        .setRotationSpeedRange(0, 180) // 旋转角度范围
+                        .setFadeOut(10) // 淡出时间
+                        .oneShot(text_view, 300); // 对目标View执行一次爆炸，100个粒子
+                if(文本编号 < Static.text_list.size()-1){
+                    流程 = 0;
+                    文本编号++;
+                    数组编号=0;
+                    计时=0;
+                    文本数组=null;
+                    handler.postDelayed(this, 600);
+                    return;
+                }
+                handler.removeCallbacks(this);
+            }
+        }
+    };
+
     public View_Show(Context context){
         this.context = context;
         view =  LayoutInflater.from(context).inflate(R.layout.view_show, null);
         text_view = view.findViewById(R.id.text_view);
         text_view.setText("");
-        text_view.setAlpha(0);
-        handler.post(runnable);
+        text_view.setAlpha(1);
+        handler.postDelayed(runnable_按字显示效果, 5000);
+
     }
     public static void setAlpha255(View view, int alphaInt) {
         alphaInt = Math.max(0, Math.min(alphaInt, 255));
