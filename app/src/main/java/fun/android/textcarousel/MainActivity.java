@@ -1,5 +1,6 @@
 package fun.android.textcarousel;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.WindowManager;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Static.main = findViewById(R.id.layout);
         Static.main.setPadding(0, Fun.getStatusBarHeight(this),0,0);
         Static.view_main = new View_Edit(this);
+        Static.main.setBackgroundColor(Color.WHITE);
         Static.main.removeAllViews();
         Static.main.setGravity(Gravity.START);
         Static.main.addView(Static.view_main.getView());

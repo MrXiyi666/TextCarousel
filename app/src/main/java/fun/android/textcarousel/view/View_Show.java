@@ -2,9 +2,9 @@ package fun.android.textcarousel.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -122,12 +122,27 @@ public class View_Show extends View_Main{
             }
             if(流程 == 2){
                 text_view.setText("");
-                new ParticleSystem((Activity) context, 100, R.drawable.ic_particle, 800)
-                        .setSpeedRange(0.2f, 0.5f) // 粒子速度范围
-                        .setScaleRange(0.5f, 1.5f) // 粒子缩放范围
-                        .setRotationSpeedRange(0, 180) // 旋转角度范围
-                        .setFadeOut(10) // 淡出时间
-                        .oneShot(text_view, 300); // 对目标View执行一次爆炸，100个粒子
+                // 准备彩色粒子图片数组
+                int[] colors = {
+                        R.drawable.blue,
+                        R.drawable.green,
+                        R.drawable.orange,
+                        R.drawable.purple,
+                        R.drawable.red,
+                        R.drawable.yellow
+                };
+                for (int colorRes : colors) {
+                    new ParticleSystem((Activity) context, 50, colorRes, 2000)
+                            .setSpeedRange(0.2f, 0.5f)
+                            .setScaleRange(0.2f, 1.5f)
+                            .setRotationSpeedRange(0, 360)
+                            .setFadeOut(15)
+                            .oneShot(text_view, 300);
+                }
+
+
+
+
                 if(文本编号 < Static.text_list.size()-1){
                     流程 = 0;
                     文本编号++;

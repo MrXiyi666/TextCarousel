@@ -1,6 +1,7 @@
 package fun.android.textcarousel.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ public class View_Edit extends View_Main{
         });
 
         button_start.setOnClickListener(V->{
-
+            Static.main.setBackgroundColor(Color.BLACK);
             Static.main.removeAllViews();
             Static.view_main = new View_Show(context);
             Static.main.setGravity(Gravity.CENTER);
